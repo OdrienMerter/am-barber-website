@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AM BARBER - Salon de Coiffure & Barbier</title>
+    <meta name="description" content="Découvrez AM BARBER, votre salon de coiffure et barbier de référence. Expertise, style et ambiance unique pour l'homme moderne.">
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="image/logo.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+</head>
+<body>
+
+    <header class="header">
+        <nav class="nav container">
+            <a href="#" class="nav__logo">AM BARBER</a>
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li class="nav__item"><a href="#accueil" class="nav__link">Accueil</a></li>
+                    <li class="nav__item"><a href="#apropos" class="nav__link">Le Salon</a></li>
+                    <li class="nav__item"><a href="#services" class="nav__link">Services</a></li>
+                    <li class="nav__item"><a href="#galerie" class="nav__link">Galerie</a></li>
+                    <li class="nav__item"><a href="#avis" class="nav__link">Avis</a></li>
+                    <li class="nav__item"><a href="#contact" class="nav__link">Contact</a></li>
+                    <li class="nav__item"><a href="reservation.html" class="nav__link nav__link--cta">Réservation</a></li>
+                </ul>
+                <div class="nav__close" id="nav-close"><i class="fa-solid fa-xmark"></i></div>
+            </div>
+
+            <a href="reservation.html" class="button button--header">Réservation</a>
+            
+            <div class="nav__toggle" id="nav-toggle"><i class="fa-solid fa-bars"></i></div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="home" id="accueil">
+            <div class="home__container container">
+                <div class="home__content">
+                    <h1 class="home__title">L'Élégance au Masculin</h1>
+                    <p class="home__description">Là où le style rencontre la précision. Offrez-vous une expérience unique dans un cadre moderne et sophistiqué.</p>
+                    <!-- Le bouton pointe maintenant vers reservation.html -->
+                    <a href="reservation.html" class="button">Réserver maintenant</a>
+                </div>
+            </div>
+        </section>
+        
+        <section class="about section" id="apropos">
+            <div class="about__container container grid">
+                <div class="about__data">
+                    <h2 class="section__title">Bienvenue chez AM BARBER</h2>
+                    <p class="about__description">Fondé sur la passion de la coiffure et l'art du barbier, AM BARBER n'est pas qu'un simple salon. C'est un lieu de vie où chaque client bénéficie d'une attention personnalisée. Notre mission : révéler votre style avec expertise et savoir-faire.</p>
+                    <div class="about__details">
+                        <p class="about__details-item"><i class="fa-solid fa-check"></i> Ambiance Unique & Moderne</p>
+                        <p class="about__details-item"><i class="fa-solid fa-check"></i> Barbiers Experts & Passionnés</p>
+                        <p class="about__details-item"><i class="fa-solid fa-check"></i> Produits Haut de Gamme</p>
+                    </div>
+                </div>
+                <div class="about__img">
+                    <img src="image/salon.png" alt="Intérieur du salon AM BARBER">
+                </div>
+            </div>
+        </section>
+        
+        <section class="services section" id="services">
+            <h2 class="section__title">Nos Prestations</h2>
+            <div class="services__container container grid">
+                <div class="service__card">
+                    <h3 class="service__title">Coupe Homme</h3>
+                    <p class="service__description">Coupe sur-mesure, shampoing et coiffage inclus.</p>
+                    <span class="service__price">30€</span>
+                </div>
+                <div class="service__card">
+                    <h3 class="service__title">Taille de Barbe</h3>
+                    <p class="service__description">Taille, contours précis, serviette chaude, huile et baume.</p>
+                    <span class="service__price">20€</span>
+                </div>
+                <div class="service__card">
+                    <h3 class="service__title">Forfait Coupe & Barbe</h3>
+                    <p class="service__description">L'expérience complète pour un style impeccable.</p>
+                    <span class="service__price">45€</span>
+                </div>
+                <div class="service__card">
+                    <h3 class="service__title">Coupe Enfant (-12 ans)</h3>
+                    <p class="service__description">Une coupe soignée et stylée pour les plus jeunes.</p>
+                    <span class="service__price">25€</span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ==================== GALERIE MODIFIÉE ==================== -->
+        <section class="gallery section" id="galerie">
+            <h2 class="section__title">Notre Savoir-Faire en Images</h2>
+            <div class="gallery__container container grid">
+                <img src="image/coupe1.png" alt="Coupe dégradé sur cheveux bouclés">
+                <img src="image/coupe2.png" alt="Coupe avec dégradé bas et cheveux lisses">
+                <img src="image/coupe3.png" alt="Coupe avec dégradé à blanc">
+                <img src="image/coupe4.png" alt="Coupe enfant avec trait design">
+                <img src="image/coupe5.png" alt="Coupe avec dégradé à blanc">
+                <img src="image/coupe6.png" alt="Coupe enfant avec trait design">
+            </div>
+        </section>
+
+        <section class="testimonials section" id="avis">
+            <h2 class="section__title">Ce que disent nos clients</h2>
+            <div class="testimonials__container container grid">
+                <div class="testimonial__card">
+                    <h3 class="testimonial__name">Rafik B.</h3>
+                    <div class="testimonial__stars">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="testimonial__description">"Un salon super propre et professionnel, meilleur coiffeur dans la métropole lilloise."</p>
+                </div>
+                <div class="testimonial__card">
+                    <h3 class="testimonial__name">Saïd O.</h3>
+                    <div class="testimonial__stars">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="testimonial__description">"Accueil au Top, équipe professionnelle, rien à dire et surtout très très propre. Je recommande !"</p>
+                </div>
+                <div class="testimonial__card">
+                    <h3 class="testimonial__name">Cross B.</h3>
+                    <div class="testimonial__stars">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="testimonial__description">"Coiffeur très professionnel, à l’écoute du client, résultat garanti."</p>
+                </div>
+                <div class="testimonial__card">
+                    <h3 class="testimonial__name">Chaouki B.</h3>
+                    <div class="testimonial__stars">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="testimonial__description">"Meilleur salon, meilleur coiffeur, personnel accueillant et professionnel."</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="contact section" id="contact">
+            <h2 class="section__title">Nous Trouver et Contacter</h2>
+            <div class="contact__container container grid">
+                <div class="contact__info">
+                    <h3>Informations</h3>
+                    <p><a href="https://www.google.com/maps/search/?api=1&query=12+Av.+Jean+Lebas,+59100+Roubaix" target="_blank"><i class="fa-solid fa-location-dot"></i> 12 Av. Jean Lebas, 59100 Roubaix</a></p>
+                    <p><a href="tel:0955367634"><i class="fa-solid fa-phone"></i> 09 55 36 76 34</a></p>
+                    <p><i class="fa-solid fa-clock"></i> Mar - Sam : 9h00 - 19h00</p>
+                    <h3>Suivez-nous</h3>
+                    <div class="contact__socials">
+                        <a href="https://www.instagram.com/am_barber59/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://www.tiktok.com/@ambarber2" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
+                    </div>
+                </div>
+                <div class="contact__map">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2528.47353912187!2d3.172080677134887!3d50.69429497164175!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c328e70528248d%3A0x28f73a5f57371c6d!2s12%20Av.%20Jean%20Lebas%2C%2059100%20Roubaix!5e0!3m2!1sfr!2sfr!4v1694553255581!5m2!1sfr!2sfr" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer__container container grid">
+            <div class="footer__brand">
+                <a href="#" class="nav__logo">AM BARBER</a>
+                <p>L'Élégance au Masculin.</p>
+            </div>
+            <div class="footer__links">
+                <h4>Navigation</h4>
+                <ul>
+                    <li><a href="#apropos">Le Salon</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#galerie">Galerie</a></li>
+                </ul>
+            </div>
+            <div class="footer__contact">
+                <h4>Contact</h4>
+                <p>12 Av. Jean Lebas<br>59100 Roubaix</p>
+                <div class="contact__socials">
+                    <a href="https://www.instagram.com/am_barber59/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://www.tiktok.com/@ambarber2" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer__copy">
+            <p>&copy; 2025 AM BARBER. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script> <!-- Si vous avez un fichier JS global -->
+</body>
+</html>
