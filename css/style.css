@@ -1,0 +1,142 @@
+/* ==================== VARIABLES CSS ==================== */
+:root {
+    --gold-color: #C9B037; --dark-color: #121212; --body-color: #000000; --text-color: #FFFFFF;
+    --container-color: #1C1C1C; --body-font: 'Montserrat', sans-serif; --title-font: 'Playfair Display', serif;
+    --h1-font-size: 2.5rem; --h2-font-size: 1.5rem; --h3-font-size: 1.25rem;
+    --normal-font-size: 1rem; --font-bold: 700;
+}
+
+/* ==================== BASE & RESET ==================== */
+* { box-sizing: border-box; padding: 0; margin: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--body-font); background-color: var(--body-color); color: var(--text-color); }
+ul { list-style: none; } a { text-decoration: none; color: inherit; } img { max-width: 100%; height: auto; display: block; }
+.container { max-width: 968px; margin: 0 1.5rem; }
+
+/* ==================== CLASSES RÉUTILISABLES ==================== */
+.section { padding: 6rem 0 2rem; }
+.section__title { font-size: var(--h2-font-size); font-family: var(--title-font); text-align: center; margin-bottom: 3rem; color: var(--gold-color); text-transform: uppercase; letter-spacing: 2px; }
+.grid { display: grid; gap: 1.5rem; }
+
+/* ==================== BOUTONS ==================== */
+.button { display: inline-block; background-color: var(--gold-color); color: var(--dark-color); padding: 1rem 1.75rem; font-weight: var(--font-bold); transition: .3s; border-radius: 4px; border: 2px solid transparent; }
+.button:hover { background-color: transparent; color: var(--gold-color); border-color: var(--gold-color); }
+.button--header { padding: 0.6rem 1.2rem; font-size: 0.9rem; }
+
+/* ==================== STYLES MOBILES PAR DÉFAUT (Mobile First) ==================== */
+.header { width: 100%; position: fixed; top: 0; left: 0; z-index: 100; background-color: rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px); }
+.nav { height: 4.5rem; display: flex; justify-content: space-between; align-items: center; }
+.nav__logo { display: none; }
+.button--header { display: inline-block; }
+.nav__toggle { display: block; font-size: 1.5rem; cursor: pointer; color: var(--gold-color); order: -1; }
+
+/* ==================== MENU DÉROULANT AMÉLIORÉ ==================== */
+.nav__menu {
+    position: fixed;
+    top: 5.5rem;
+    left: 0;
+    width: 100%;
+    height: auto;
+    background-color: var(--dark-color);
+    padding: 1rem 2rem 2rem;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    z-index: 200;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-1rem);
+    transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+}
+.nav__menu.show-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+.nav__list { display: flex; flex-direction: column; gap: 0; }
+.nav__link { display: block; padding: 1rem 0; font-size: 1.25rem; text-align: center; color: var(--text-color); border-bottom: 1px solid rgba(255, 255, 255, 0.1); transition: color 0.3s; }
+.nav__link:hover { color: var(--gold-color); }
+.nav__item:first-child .nav__link { border-top: 1px solid rgba(255, 255, 255, 0.1); }
+.nav__link--cta { background-color: var(--gold-color); color: var(--dark-color) !important; padding: 1rem 1.5rem !important; border-radius: 4px; margin-top: 1.5rem; border-bottom: none !important; transition: background-color 0.3s; display: block; width: fit-content; margin-left: auto; margin-right: auto; }
+.nav__link--cta:hover { background-color: #e0c653; color: var(--dark-color) !important; }
+.nav__close { display: block; position: absolute; top: 1.5rem; right: 1.5rem; font-size: 1.8rem; cursor: pointer; color: var(--gold-color); }
+
+/* ==================== VUE ORDINATEUR & TABLETTE (min-width: 768px) ==================== */
+@media screen and (min-width: 768px) {
+    .container { margin: 0 auto; }
+    .nav__logo { display: block; font-size: 1.5rem; font-family: var(--title-font); font-weight: 700; color: var(--gold-color); }
+    .nav__toggle, .nav__close, .button--header { display: none; }
+    .nav__menu { position: static; top: auto; height: auto; width: auto; background-color: transparent; padding: 0; opacity: 1; visibility: visible; transform: none; border-radius: 0; }
+    .nav__list { flex-direction: row; gap: 2.5rem; }
+    .nav__link { padding: 0.5rem 0; font-size: var(--normal-font-size); border: none !important; }
+    .nav__link--cta { margin-top: 0; padding: 0.5rem 1.25rem !important; }
+}
+
+/* ==================== STYLES DU RESTE DE LA PAGE ==================== */
+.home { min-height: 100vh; display: flex; align-items: center; background: url('../image/accueil.png') no-repeat center center/cover; position: relative; }
+.home::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); }
+.home__container { position: relative; z-index: 2; }
+.home__content { max-width: 600px; text-align: center; margin: 0 auto; }
+.home__title { font-size: var(--h1-font-size); font-family: var(--title-font); color: var(--gold-color); margin-bottom: 1rem; }
+.home__description { margin-bottom: 2rem; font-size: 1.1rem; line-height: 1.6; }
+.about__container { align-items: center; }
+.about__data { text-align: center; }
+.about__description { margin-bottom: 2rem; line-height: 1.7; }
+.about__details { text-align: left; display: inline-block; }
+.about__details-item { margin-bottom: 1rem; }
+.about__details-item i { color: var(--gold-color); margin-right: 0.5rem; }
+.about__img { border-radius: 0.5rem; overflow: hidden; }
+.services { background-color: var(--dark-color); }
+.service__card { background-color: var(--container-color); padding: 2.5rem 1.5rem; text-align: center; border: 1px solid #333; transition: .3s; }
+.service__card:hover { transform: translateY(-10px); border-color: var(--gold-color); box-shadow: 0 0 15px rgba(201, 176, 55, 0.2); }
+.service__title { font-size: var(--h3-font-size); margin-bottom: 1rem; }
+.service__description { margin-bottom: 1.5rem; min-height: 60px; }
+.service__price { font-size: var(--h2-font-size); font-family: var(--title-font); color: var(--gold-color); }
+
+/* ==================== GALERIE ==================== */
+.gallery__container {
+    grid-template-columns: 1fr; /* MODIFIÉ : 1 seule colonne sur mobile par défaut */
+    gap: 1rem;
+}
+.gallery__img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    transition: transform .3s;
+}
+.gallery__img:hover { transform: scale(1.05); }
+
+.testimonial__card { background-color: var(--container-color); padding: 2rem 1.5rem; border: 1px solid #333; display: flex; flex-direction: column; transition: .3s; }
+.testimonial__card:hover { transform: translateY(-10px); border-color: var(--gold-color); box-shadow: 0 0 15px rgba(201, 176, 55, 0.2); }
+.testimonial__name { font-weight: var(--font-bold); margin-bottom: 0.5rem; }
+.testimonial__stars { color: var(--gold-color); margin-bottom: 1.5rem; }
+.testimonial__description { font-style: italic; line-height: 1.6; flex-grow: 1; }
+.contact__container { row-gap: 3rem; }
+.contact__info h3 { margin: 2rem 0 1rem; }
+.contact__info h3:first-of-type { margin-top: 0; }
+.contact__info p { margin-bottom: 1rem; }
+.contact__info p a:hover { color: var(--gold-color); }
+.contact__info i { color: var(--gold-color); margin-right: 0.75rem; width: 20px; }
+.contact__socials a { font-size: 1.5rem; margin-right: 1.5rem; transition: .3s; }
+.contact__socials a:hover { color: var(--gold-color); }
+.contact__map iframe { width: 100%; height: 300px; border-radius: 0.5rem; }
+.footer { background-color: var(--dark-color); padding: 4rem 0 2rem; color: #aaa; }
+.footer__container { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; margin-bottom: 3rem; }
+.footer h4 { color: var(--gold-color); margin-bottom: 1rem; }
+.footer ul a:hover { color: var(--gold-color); }
+.footer__copy { text-align: center; padding-top: 2rem; border-top: 1px solid #333; font-size: 0.9rem; }
+
+/* ==================== RESPONSIVE ==================== */
+@media screen and (min-width: 500px) {
+    .gallery__container {
+        grid-template-columns: repeat(2, 1fr); /* AJOUTÉ : Passage à 2 colonnes sur petits écrans */
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .about__container, .contact__container { grid-template-columns: 1fr 1fr; }
+    .about__data { text-align: left; }
+    .services__container, .testimonials__container { grid-template-columns: repeat(2, 1fr); }
+    .gallery__container {
+        grid-template-columns: repeat(3, 1fr); /* MODIFIÉ : 3 colonnes sur tablette et plus */
+    }
+}
+@media screen and (min-width: 1024px) {
+    :root { --h1-font-size: 4rem; --h2-font-size: 2rem; --h3-font-size: 1.5rem; }
+    .services__container { grid-template-columns: repeat(4, 1fr); }
+}
