@@ -28,7 +28,7 @@ const allowedOrigins = [
     'http://127.0.0.1:3001',   // Exemple: Frontend sur port 3001
     'http://localhost:5173',   // Exemple: Frontend avec Vite
     'http://127.0.0.1:5173',   // Exemple: Frontend avec Vite
-    // 'https://www.votredomaine.com', // Exemple de production (à décommenter et adapter)
+    'https://odrienmerter.github.io/am-barber-website/index.html'
 ];
 
 const corsOptions = {
