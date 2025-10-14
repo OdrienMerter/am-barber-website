@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Réservation - AM BARBER Roubaix</title>
     
-    <!-- Lien vers la feuille de style CSS (assurez-vous que le chemin est correct) -->
-    <link rel="stylesheet" href="./css/reservation.css">
+    <!-- Lien vers la feuille de style CSS -->
+    <link rel="stylesheet" href="./css/reservation.css"> 
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,13 +26,13 @@
     <main class="booking-page">
         <div class="booking__container">
             <div class="booking__header">
-                <!-- Assurez-vous que le lien pointe vers votre page d'accueil -->
+                <!-- Lien pour retourner à la page d'accueil -->
                 <a href="index.html" class="back-link">&larr; Retour au site</a>
                 <h1 class="section__title">Réservez votre rendez-vous</h1>
             </div>
             
-            <!-- Formulaire avec l'action actuelle pour l'envoi potentiel à Formspree (peut être retiré ou adapté) -->
-            <form class="booking__form" id="bookingForm" action="https://formspree.io/f/xvgbeork" method="post">
+            <!-- Formulaire de réservation -->
+            <form class="booking__form" id="bookingForm">
                 <div class="booking__grid">
                     <div class="booking__group">
                         <label for="firstName" class="booking__label">Prénom *</label>
@@ -46,7 +46,7 @@
                     
                     <div class="booking__group">
                         <label for="phone" class="booking__label">Téléphone *</label>
-                        <input type="tel" id="phone" name="phone" class="booking__input" required>
+                        <input type="tel" id="phone" name="phone" class="booking__input" required pattern="[0-9]{10}" title="Entrez un numéro de téléphone valide (10 chiffres)">
                     </div>
                     
                     <div class="booking__group">
@@ -58,10 +58,10 @@
                         <label for="service" class="booking__label">Service souhaité *</label>
                         <select id="service" name="service" class="booking__select" required>
                             <option value="">Choisir un service</option>
-                            <option value="coupe-homme">Coupe Homme - 30€</option>
-                            <option value="taille-barbe">Taille de Barbe - 20€</option>
-                            <option value="forfait-coupe-barbe">Forfait Coupe & Barbe - 45€</option>
-                            <option value="coupe-enfant">Coupe Enfant (-12 ans) - 25€</option>
+                            <option value="Coupe Homme">Coupe Homme - 30€</option>
+                            <option value="Taille de Barbe">Taille de Barbe - 20€</option>
+                            <option value="Forfait Coupe & Barbe">Forfait Coupe & Barbe - 45€</option>
+                            <option value="Coupe Enfant (-12 ans)">Coupe Enfant (-12 ans) - 25€</option>
                         </select>
                     </div>
 
@@ -69,9 +69,8 @@
                     <div class="booking__group">
                         <label class="booking__label">Date et Heure *</label>
                         <input type="text" id="datetimePicker" name="datetimePicker" class="booking__input" placeholder="Sélectionnez une date et une heure" required>
-                        <!-- Champs cachés pour stocker la date et l'heure sélectionnées, utilisés pour l'envoi au backend -->
-                        <input type="hidden" id="selectedDate" name="selectedDate">
-                        <input type="hidden" id="selectedTime" name="selectedTime">
+                        <!-- Champs cachés pour stocker la date et l'heure sélectionnées en format ISO -->
+                        <input type="hidden" id="selectedDateTimeISO" name="selectedDateTimeISO">
                     </div>
                     
                     <div class="booking__group booking__group--full">
@@ -81,7 +80,7 @@
                 </div>
                 
                 <!-- Bouton de soumission -->
-                <button type="submit" class="button booking__submit">
+                <button type="submit" class="button booking__submit" id="submitButton">
                     <i class="fa-solid fa-calendar-check"></i> Confirmer la réservation
                 </button>
             </form>
@@ -104,7 +103,7 @@
                 Merci, votre demande a bien été prise en compte.<br>
                 Nous vous confirmerons le rendez-vous par SMS sous 24h.
             </p>
-            <button class="button" onclick="closeModal()">Parfait !</button>
+            <button class="button" id="modalConfirmButton">Parfait !</button>
         </div>
     </div>
 
@@ -114,127 +113,127 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://npmcdn.com/flatpickr/dist/l10n/fr.js"></script> <!-- Locale française pour Flatpickr -->
     
-<script>
-    // --- Configuration du Frontend ---
+    <script>
+        // --- Configuration du Frontend ---
 
-    // URL de votre backend (local pour le développement)
-    // Assurez-vous que ce port correspond au port sur lequel votre backend tourne réellement
-    const BACKEND_API_URL = 'http://localhost:3000'; 
+        // URL de votre backend (local pour le développement)
+        // Assurez-vous que ce port correspond au port sur lequel votre backend tourne réellement
+        // et que les routes appelées correspondent à celles définies dans server.js (/api/...)
+        const BACKEND_API_URL = 'http://localhost:3000'; 
 
-    // --- Fonctions pour le calendrier et le formulaire ---
-
-    /**
-     * Retourne la configuration pour Flatpickr.
-     */
-    function getFlatpickrConfig() {
-        const today = new Date();
-        // Min: Demain (pour éviter de réserver pour aujourd'hui et permettre la vérification)
-        const tomorrow = new Date(today);
-        tomorrow.setDate(today.getDate() + 1); 
-        
-        // Max: 3 mois à partir de maintenant
-        const maxDate = new Date(today);
-        maxDate.setMonth(today.getMonth() + 3); 
-
-        return {
-            enableTime: true,
-            dateFormat: "Y-m-d H:i",       // Format interne utilisé pour les requêtes API
-            altInput: true,               // Champ lisible par l'utilisateur
-            altFormat: "d/m/Y H:i",       // Format affiché à l'utilisateur
-            minDate: tomorrow,
-            maxDate: maxDate,
-            locale: "fr",                 // Utilise la locale française
-            hourIncrement: 1,             // Incrément d'heure
-            minuteIncrement: 30,          // Incrément de minute (pour des créneaux de 30min)
-            disable: [
-                function(date) {
-                    // Désactive les dimanches (0) et lundis (1)
-                    return (date.getDay() === 0 || date.getDay() === 1); 
-                }
-            ],
-            // Optionnel : vous pouvez ajouter des logiques pour griser des dates ou heures spécifiques
-            // si vous connaissez des indisponibilités à l'avance, mais la vérification backend est primordiale.
-            
-            onChange: function(selectedDates, dateStr, instance) {
-                // Met à jour les champs cachés lors de la sélection
-                if (selectedDates.length > 0) {
-                    const selectedDateTime = selectedDates[0];
-                    document.getElementById('selectedDate').value = instance.formatDate(selectedDateTime, "Y-m-d");
-                    document.getElementById('selectedTime').value = instance.formatDate(selectedDateTime, "H:i");
-                } else {
-                    document.getElementById('selectedDate').value = '';
-                    document.getElementById('selectedTime').value = '';
-                }
-            }
-        };
-    }
-
-    /**
-     * Ouvre le modal de confirmation.
-     */
-    function openConfirmationModal() {
-        document.getElementById('confirmationModal').classList.add('show');
-    }
-
-    /**
-     * Ferme le modal de confirmation et redirige.
-     */
-    function closeModal() {
-        document.getElementById('confirmationModal').classList.remove('show');
-        // Redirection vers la page d'accueil après fermeture du modal
-        window.location.href = 'index.html'; 
-    }
-
-    /**
-     * Écouteur d'événement principal qui se lance une fois la page chargée.
-     */
-    document.addEventListener('DOMContentLoaded', function() {
-        // Initialisation du calendrier Flatpickr
-        const datetimePicker = flatpickr("#datetimePicker", getFlatpickrConfig());
-
-        // Récupération des éléments du DOM
+        // --- DOM Elements ---
         const bookingForm = document.getElementById('bookingForm');
+        const datetimePickerInput = document.getElementById('datetimePicker');
+        const selectedDateTimeISOInput = document.getElementById('selectedDateTimeISO');
         const confirmationModal = document.getElementById('confirmationModal');
+        const modalCloseButton = document.getElementById('modalClose');
+        const modalConfirmButton = document.getElementById('modalConfirmButton');
+        const submitButton = document.getElementById('submitButton');
 
-        // --- Gestion de la soumission du formulaire ---
-        bookingForm.addEventListener('submit', async function(event) {
-            event.preventDefault(); // Empêche la soumission par défaut du formulaire HTML
+        // --- Fonctions Utilitaires ---
 
-            // Récupérer les valeurs sélectionnées
-            const selectedDateValue = document.getElementById('selectedDate').value;
-            const selectedTimeValue = document.getElementById('selectedTime').value;
-            const selectedService = document.getElementById('service').value;
-            const firstName = document.getElementById('firstName').value;
-            const lastName = document.getElementById('lastName').value;
-            const phone = document.getElementById('phone').value;
-            const email = document.getElementById('email').value;
-            const message = document.getElementById('message').value;
+        /**
+         * Affiche un message d'alerte au visiteur.
+         * @param {string} message Le message à afficher.
+         */
+        function displayAlert(message) {
+            alert(message);
+        }
 
-            // Validation basique des champs obligatoires
-            if (!selectedDateValue || !selectedTimeValue || !selectedService) {
-                alert("Veuillez sélectionner un service, une date et une heure valide.");
-                return;
+        /**
+         * Affiche ou masque le bouton de soumission (utile pour le chargement).
+         * @param {boolean} show True pour afficher, false pour masquer.
+         */
+        function toggleSubmitButton(show) {
+            if (submitButton) {
+                submitButton.disabled = !show;
+                const icon = submitButton.querySelector('i');
+                if (icon) {
+                    if (show) {
+                        icon.classList.remove('fa-spinner', 'fa-spin');
+                        icon.classList.add('fa-calendar-check');
+                    } else {
+                        icon.classList.remove('fa-calendar-check');
+                        icon.classList.add('fa-spinner', 'fa-spin');
+                    }
+                }
             }
+        }
 
-            // Construction des objets Date pour les appels API
-            // On utilise l'heure locale du navigateur pour construire la date
-            const selectedDateTime = new Date(`${selectedDateValue}T${selectedTimeValue}:00`);
-            
-            // Vérification si la date est valide avant de continuer
-            if (isNaN(selectedDateTime.getTime())) {
-                 alert("La date ou l'heure sélectionnée n'est pas valide.");
-                 return;
+        /**
+         * Ouvre le modal de confirmation.
+         */
+        function openConfirmationModal() {
+            if (confirmationModal) {
+                confirmationModal.classList.add('show');
             }
+        }
 
-            // Formats ISO pour les requêtes backend
-            const startDateTimeISO = selectedDateTime.toISOString();
-            // Fin du créneau : 30 minutes après le début
-            const endDateTimeISO = new Date(selectedDateTime.getTime() + 30 * 60 * 1000).toISOString(); 
+        /**
+         * Ferme le modal de confirmation et redirige vers la page d'accueil.
+         */
+        function closeModal() {
+            if (confirmationModal) {
+                confirmationModal.classList.remove('show');
+            }
+            window.location.href = 'index.html'; // Redirection vers la page d'accueil
+        }
 
-            // --- Étape 1: Vérifier la disponibilité auprès du backend ---
+        /**
+         * Configure Flatpickr pour le sélecteur de date et d'heure.
+         * @returns {object} Configuration pour Flatpickr.
+         */
+        function getFlatpickrConfig() {
+            const today = new Date();
+            // Min: Demain (pour éviter de réserver pour aujourd'hui et permettre la vérification backend)
+            const tomorrow = new Date(today);
+            tomorrow.setDate(today.getDate() + 1); 
+            tomorrow.setHours(0, 0, 0, 0); // Commence à minuit demain
+
+            // Max: 3 mois à partir de maintenant
+            const maxDate = new Date(today);
+            maxDate.setMonth(today.getMonth() + 3); 
+
+            return {
+                enableTime: true,
+                dateFormat: "Y-m-d H:i",       // Format interne utilisé pour les requêtes API (ISO compatible)
+                altInput: true,               // Champ lisible par l'utilisateur
+                altFormat: "d/m/Y H:i",       // Format affiché à l'utilisateur
+                minDate: tomorrow,            // Ne pas permettre de réserver avant demain
+                maxDate: maxDate,             // Limite la réservation à 3 mois
+                locale: "fr",                 // Utilise la locale française
+                hourIncrement: 1,             // Incrément d'heure
+                minuteIncrement: 30,          // Incrément de minute (pour des créneaux de 30min)
+                disable: [
+                    function(date) {
+                        // Désactive les dimanches (0) et lundis (1)
+                        const day = date.getDay();
+                        return day === 0 || day === 1; 
+                    }
+                ],
+                
+                onChange: function(selectedDates, dateStr, instance) {
+                    // Met à jour le champ caché avec la date/heure sélectionnée en format ISO
+                    if (selectedDates.length > 0) {
+                        const selectedDateTime = selectedDates[0];
+                        // Utilisation de toISOString() pour obtenir le format attendu par le backend
+                        selectedDateTimeISOInput.value = selectedDateTime.toISOString(); 
+                    } else {
+                        selectedDateTimeISOInput.value = '';
+                    }
+                }
+            };
+        }
+
+        /**
+         * Vérifie la disponibilité du créneau horaire via l'API backend.
+         * @param {string} startDateTimeISO Date et heure de début au format ISO.
+         * @returns {Promise<boolean>} True si disponible, false sinon.
+         */
+        async function checkAvailability(startDateTimeISO) {
             try {
-                console.log(`Frontend: Appel à ${BACKEND_API_URL}/check-availability avec:`, { startDateTimeISO });
-                const availabilityResponse = await fetch(`${BACKEND_API_URL}/check-availability`, {
+                console.log(`Frontend: Appel à ${BACKEND_API_URL}/api/check-availability avec:`, { startDateTimeISO });
+                const response = await fetch(`${BACKEND_API_URL}/api/check-availability`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -242,72 +241,161 @@
                     body: JSON.stringify({ startDateTimeISO: startDateTimeISO }),
                 });
 
-                // Si la réponse du backend n'est pas OK (ex: erreur 500 non gérée correctement)
-                if (!availabilityResponse.ok) {
-                    const errorData = await availabilityResponse.json().catch(() => ({ error: "Réponse invalide du serveur" }));
-                    console.error("Frontend: Erreur réseau lors de la vérification de disponibilité:", availabilityResponse.status, errorData);
-                    alert(`Erreur lors de la vérification de disponibilité: ${errorData.error || availabilityResponse.statusText}. Veuillez réessayer plus tard.`);
-                    return; // Arrête le processus
+                if (!response.ok) {
+                    // Tente de récupérer les détails de l'erreur, sinon utilise un message par défaut
+                    let errorDetails = `Erreur réseau lors de la vérification de disponibilité: ${response.status} ${response.statusText}`;
+                    try {
+                        const errorData = await response.json();
+                        errorDetails = errorData.error || errorDetails;
+                    } catch (e) { /* Ignorer si la réponse n'est pas JSON */ }
+                    
+                    console.error("Frontend: Erreur lors de la vérification de disponibilité:", response.status, errorDetails);
+                    displayAlert(`Impossible de vérifier la disponibilité: ${errorDetails}. Veuillez réessayer.`);
+                    return false; // Indique que le créneau n'est pas considéré comme disponible (à cause de l'erreur)
                 }
 
-                const availabilityData = await availabilityResponse.json();
+                const data = await response.json();
+                return data.available; // Retourne true si disponible, false sinon
 
-                if (!availabilityData.available) {
-                    alert("Désolé, ce créneau horaire est déjà réservé. Veuillez en choisir un autre.");
-                    // Optionnel: effacer la sélection du datetimePicker
-                    datetimePicker.clear();
-                    document.getElementById('selectedDate').value = '';
-                    document.getElementById('selectedTime').value = '';
-                    return; // Arrête le processus
-                }
+            } catch (error) {
+                console.error("Frontend: Erreur réseau globale lors de la vérification de disponibilité:", error);
+                displayAlert("Une erreur réseau s'est produite lors de la vérification de disponibilité. Veuillez vérifier votre connexion et que le serveur backend est bien lancé.");
+                return false; // Indique que le créneau n'est pas disponible en cas d'erreur réseau
+            }
+        }
 
-                // --- Étape 2: Si disponible, créer la réservation via le backend ---
-                console.log(`Frontend: Créneau disponible. Appel à ${BACKEND_API_URL}/create-booking`);
-                const bookingResponse = await fetch(`${BACKEND_API_URL}/create-booking`, {
+        /**
+         * Crée une réservation via l'API backend.
+         * @param {object} bookingData Les données de la réservation.
+         * @returns {Promise<boolean>} True si la réservation a été créée avec succès, false sinon.
+         */
+        async function createBooking(bookingData) {
+            try {
+                console.log(`Frontend: Appel à ${BACKEND_API_URL}/api/create-booking`);
+                const response = await fetch(`${BACKEND_API_URL}/api/create-booking`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({
-                        summary: `Réservation ${firstName} ${lastName} - ${selectedService}`,
-                        startDateTimeISO: startDateTimeISO,
-                        endDateTimeISO: endDateTimeISO,
-                        description: `Client: ${firstName} ${lastName}\nTél: ${phone}\nEmail: ${email}\nMessage: ${message}`,
-                        email: email, // Optionnel: pour inviter le client via Google Calendar
-                    }),
+                    body: JSON.stringify(bookingData),
                 });
 
-                // Vérification si la réponse du backend est OK
-                if (!bookingResponse.ok) {
-                    const errorData = await bookingResponse.json().catch(() => ({ error: "Réponse invalide du serveur" }));
-                    console.error("Frontend: Erreur réseau lors de la création de réservation:", bookingResponse.status, errorData);
-                    alert(`Erreur lors de la création de la réservation: ${errorData.error || bookingResponse.statusText}. Veuillez réessayer.`);
-                    return; // Arrête le processus
+                if (!response.ok) {
+                    let errorDetails = `Erreur lors de la création de la réservation: ${response.status} ${response.statusText}`;
+                    try {
+                        const errorData = await response.json();
+                        errorDetails = errorData.error || errorDetails;
+                    } catch (e) { /* Ignorer si la réponse n'est pas JSON */ }
+                    
+                    console.error("Frontend: Erreur lors de la création de réservation:", response.status, errorDetails);
+                    displayAlert(`Erreur: ${errorDetails}. Veuillez réessayer.`);
+                    return false; // Indique que la réservation a échoué
                 }
 
-                const bookingData = await bookingResponse.json();
+                const data = await response.json();
 
-                if (bookingData.success) {
-                    console.log("Frontend: Réservation créée avec succès par le backend. Affichage du modal.");
-                    openConfirmationModal(); // Ouvre le modal de succès
-
-                    // Optionnel : si vous voulez aussi envoyer un email via Formspree en plus de la création Google Calendar
-                    // Vous pouvez faire un fetch vers Formspree ici, mais attention à ne pas le faire deux fois
-                    // si le backend s'en occupe déjà.
-                    
+                if (data.success) {
+                    console.log("Frontend: Réservation créée avec succès par le backend.");
+                    return true; // Indique que la réservation a réussi
                 } else {
-                    // Gérer les erreurs retournées par le backend (ex: si le backend dit que ce n'est pas dispo après vérif)
-                    alert(`Erreur lors de la création de la réservation: ${bookingData.error || 'Erreur inconnue'}. Veuillez réessayer.`);
-                    console.error("Frontend: Erreur retournée par le backend:", bookingData);
+                    // Gérer les erreurs spécifiques retournées par le backend (ex: créneau non dispo après vérification)
+                    displayAlert(`Erreur: ${data.error || 'Erreur inconnue côté serveur'}. Veuillez réessayer.`);
+                    console.error("Frontend: Erreur retournée par le backend:", data);
+                    return false;
                 }
 
             } catch (error) {
-                // Erreur réseau lors des appels fetch
-                alert("Une erreur réseau s'est produite. Veuillez vérifier votre connexion et que le serveur backend est bien lancé.");
-                console.error("Frontend: Erreur réseau globale:", error);
+                console.error("Frontend: Erreur réseau globale lors de la création de réservation:", error);
+                displayAlert("Une erreur réseau s'est produite lors de la création de la réservation. Veuillez vérifier votre connexion et que le serveur backend est bien lancé.");
+                return false; // Indique que la réservation a échoué
+            }
+        }
+
+        // --- Gestionnaire d'Événement Principal ---
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // Initialisation du calendrier Flatpickr
+            const datetimePicker = flatpickr(datetimePickerInput, getFlatpickrConfig());
+
+            // --- Gestion de la soumission du formulaire ---
+            bookingForm.addEventListener('submit', async function(event) {
+                event.preventDefault(); // Empêche la soumission HTML par défaut
+
+                // Afficher l'indicateur de chargement sur le bouton
+                toggleSubmitButton(false);
+
+                // Récupérer les valeurs du formulaire
+                const firstName = document.getElementById('firstName').value.trim();
+                const lastName = document.getElementById('lastName').value.trim();
+                const phone = document.getElementById('phone').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const service = document.getElementById('service').value;
+                const message = document.getElementById('message').value.trim();
+                const selectedDateTimeISO = selectedDateTimeISOInput.value; // Valeur du champ caché
+
+                // Validation basique des champs obligatoires
+                if (!firstName || !lastName || !phone || !service || !selectedDateTimeISO) {
+                    displayAlert("Veuillez remplir tous les champs obligatoires.");
+                    toggleSubmitButton(true); // Réactiver le bouton
+                    return;
+                }
+
+                // Calculer la date de fin (30 minutes après le début)
+                const startTime = new Date(selectedDateTimeISO);
+                const endTime = new Date(startTime.getTime() + 30 * 60 * 1000);
+                const endDateTimeISO = endTime.toISOString();
+
+                // --- Étape 1: Vérifier la disponibilité via le backend ---
+                const isAvailable = await checkAvailability(selectedDateTimeISO);
+
+                if (!isAvailable) {
+                    displayAlert("Désolé, ce créneau horaire est déjà réservé ou indisponible. Veuillez en choisir un autre.");
+                    // Optionnel: effacer la sélection du datetimePicker si indisponible
+                    datetimePicker.clear();
+                    selectedDateTimeISOInput.value = '';
+                    toggleSubmitButton(true); // Réactiver le bouton
+                    return; 
+                }
+
+                // --- Étape 2: Si disponible, créer la réservation via le backend ---
+                const bookingData = {
+                    summary: `Réservation ${service} - ${firstName} ${lastName}`,
+                    startDateTimeISO: selectedDateTimeISO,
+                    endDateTimeISO: endDateTimeISO,
+                    description: `Client: ${firstName} ${lastName}\nTéléphone: ${phone}\nEmail: ${email}\nMessage: ${message}`,
+                    email: email, // Transmettre l'email du client
+                };
+
+                const bookingSuccess = await createBooking(bookingData);
+
+                if (bookingSuccess) {
+                    openConfirmationModal(); // Ouvre le modal de succès
+                } else {
+                    // Un message d'erreur a déjà été affiché par createBooking
+                    console.log("Frontend: Échec de la création de la réservation, le message d'erreur a été affiché.");
+                }
+
+                // Réactiver le bouton après le processus (succès ou échec)
+                toggleSubmitButton(true); 
+            });
+
+            // --- Gestionnaires d'événements pour le Modal ---
+            if (modalCloseButton) {
+                modalCloseButton.addEventListener('click', closeModal);
+            }
+            if (modalConfirmButton) {
+                modalConfirmButton.addEventListener('click', closeModal);
+            }
+            
+            // Fermer le modal si l'utilisateur clique en dehors du contenu
+            if (confirmationModal) {
+                confirmationModal.addEventListener('click', (event) => {
+                    if (event.target === confirmationModal) {
+                        closeModal();
+                    }
+                });
             }
         });
-    });
-</script>
+    </script>
 </body>
 </html>
