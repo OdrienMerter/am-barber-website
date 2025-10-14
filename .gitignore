@@ -1,2 +1,2 @@
-reservation-api/node_modules
-reservation-api/.env
+node_modules/
+.env
