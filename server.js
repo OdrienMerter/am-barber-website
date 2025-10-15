@@ -22,13 +22,13 @@ const PORT = process.env.PORT || 3000;
 // Liste des origines autorisées pour les requêtes cross-origin.
 // Adaptez cette liste avec les origines exactes de votre frontend en développement et en production.
 const allowedOrigins = [
-    'http://localhost:3000',   // Si frontend et backend sont sur le même port 3000
-    'http://127.0.0.1:3000',   // Si frontend et backend sont sur le même port 3000
-    'http://localhost:3001',   // Exemple: Frontend sur port 3001
-    'http://127.0.0.1:3001',   // Exemple: Frontend sur port 3001
-    'http://localhost:5173',   // Exemple: Frontend avec Vite
-    'http://127.0.0.1:5173',   // Exemple: Frontend avec Vite
-    'https://odrienmerter.github.io/am-barber-website/'
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'http://localhost:3001',
+    'http://127.0.0.1:3001',
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    'https://odrienmerter.github.io', 
 ];
 
 const corsOptions = {
