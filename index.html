@@ -15,9 +15,11 @@
 </head>
 <body>
 
-    <header class="header">
+    <header class="header" id="header">
         <nav class="nav container">
             <a href="#" class="nav__logo">AM BARBER</a>
+            
+            <!-- Le menu est de retour à l'intérieur, c'est la bonne place -->
             <div class="nav__menu" id="nav-menu">
                 <ul class="nav__list">
                     <li class="nav__item"><a href="#accueil" class="nav__link">Accueil</a></li>
@@ -32,10 +34,12 @@
             </div>
 
             <a href="reservation.html" class="button button--header">Réservation</a>
-            
             <div class="nav__toggle" id="nav-toggle"><i class="fa-solid fa-bars"></i></div>
         </nav>
     </header>
+
+    <!-- Le fond flou est ici, c'est parfait -->
+    <div class="menu-overlay" id="menu-overlay"></div>
 
     <main>
         <section class="home" id="accueil">
